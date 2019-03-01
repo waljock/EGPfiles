@@ -420,7 +420,7 @@ data wjsas.incentives_database;
 		rename 'Circle O'n = Circle_O;
 		rename 'Circle V'n = Circle_V;
 		rename 'Circle B'n = Circle_B;
-		rename 'Circle W'n = Circle_W;*/
+		rename 'Circle W'n = Circle_W;
 		rename 'Boost Up'n = Boost;
 		rename 'Final Pay X'n = FinalPay_X;
 		rename 'Circle K'n = Circle_K;
