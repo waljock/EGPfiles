@@ -1,4 +1,4 @@
-%include "/sashome/prod/HMA03468/voc_coc.sas";
+%include "/sasuser/prod/hma03468/voc_coc.sas";
 
 
 
@@ -41,6 +41,7 @@ else if orig_yr = 2015 then rate = .0401;
 else if orig_yr >= 2016 then rate = .0401;
 else if orig_yr >= 2017 then rate = .0485;
 else if orig_yr >= 2018 then rate = .0525;
+else if orig_yr >= 2019 then rate = .0505;
 else rate = .0525;
 est_bal_Starting = MSRP * 1.10;
 pmt_60 = mort(est_bal_Starting,.,(rate)/12,60);
@@ -285,7 +286,7 @@ else pid_ct = 1;
 run;
 data */
 
-ods CSV file= "/sashome/prod/HMA03468/AA_HAEA/equity.txt" options(delimiter="|" quote_by_type = "yes");
+ods CSV file= "/sasuser/prod/hma03468/AA_HAEA/equity.txt" options(delimiter="|" quote_by_type = "yes");
 proc print data=WJSAS.HMFSCRUBBED noobs;
 /*format inservdate date9.;*/
 /*format valasofdate date9.*/

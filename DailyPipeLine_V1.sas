@@ -1,6 +1,6 @@
 ods select all;
 
-%include "/sashome/prod/HMA03468/voc_coc.sas";
+%include "/sasuser/prod/hma03468/voc_coc.sas";
 
 %let fname = %sysfunc(today(),YYmmddn8.);
 %put =====> fname= &fname;

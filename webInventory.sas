@@ -1,8 +1,8 @@
-libname lkps '/sashome/prod/HMA03468/XX_IOS/lookup/';
+libname lkps '/sasuser/prod/hma03468/XX_IOS/lookup/';
 %let worklib = WORK;
 %let mainlib = MAIN;
 %let lookuplib = lkps;
-%include '/sashome/prod/HMA03468/voc_coc.sas';
+%include '/sasuser/prod/hma03468/voc_coc.sas';
 
 PROC SQL;
    CREATE TABLE PipelineSALES_DLR AS 
@@ -41,13 +41,15 @@ PROC SQL;
 
 
               
-         WHERE  ( t3.MODEL_YEAR > 2015 AND t2.REGION_CD IN 
+         WHERE  ( t3.MODEL_YEAR > 2000 AND t2.REGION_CD IN 
            (
            'CE',
            'EA',
            'SC',
            'SO',
-           'WE'
+           'WE',
+		   'MA',
+		   'MS'
            )  ) 
       GROUP BY 
 	  
@@ -103,7 +105,9 @@ PROC SQL;
            'EA',
            'SC',
            'SO',
-           'WE'
+           'WE',
+		   'MA',
+		   'MS'
            ) and t2.SHOWROOM_ZIP_5 not is missing;
 QUIT;
 proc sort data=&worklib..DLRS0;
@@ -164,7 +168,7 @@ QUIT;
 
 proc export data=WORK.dealer_pipe_geo
 DBMS=XLSX
-outfile="/sashome/prod/HMA03468/git/geoShiny/GEO_DLR.xlsx"
+outfile="/sasuser/prod/hma03468/git/geoShiny/GEO_DLR.xlsx"
 replace;
 run;
 
@@ -197,13 +201,15 @@ PROC SQL;
            LEFT JOIN SALES.QM_TD_DEALER t2 ON (t1.DEALER_KEY = t2.DEALER_KEY)
            LEFT JOIN SALES.QM_TD_SITE t3 ON (t1.DEALER_KEY = t3.DEALER_KEY)
            LEFT JOIN MAIN.DEALER_GEO t4 ON (t1.DEALER_KEY = t4.DEALER_KEY)
-      WHERE t1.MODEL_YEAR >= 2015 AND t2.REGION_CD IN 
+      WHERE t1.MODEL_YEAR >= 2000 AND t2.REGION_CD IN 
            (
            'CE',
            'EA',
            'SC',
            'SO',
-           'WE'
+           'WE',
+		   'MA',
+		   'MS',
            )   
       GROUP BY t2.DEALER_CD,
                t4.LAT,
@@ -243,7 +249,7 @@ QUIT;
 proc export data=WORK.geo_decile
 DBMS=CSV
 
-outfile="/sashome/prod/HMA03468/git/geoDecile/GEO_decile.csv"
+outfile="/sasuser/prod/hma03468/git/geoDecile/GEO_decile.csv"
 
 replace;
 run;

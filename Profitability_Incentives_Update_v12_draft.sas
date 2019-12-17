@@ -509,6 +509,16 @@ PROC SQL;
 	where t1.'Material_Description'n is not missing;
 quit;
 
+/*data final_one0_1;*/
+/*set final_one0;*/
+/**/
+/*if xm_credit < 0 AND rdr_date > '1Oct2019' then XM_CREDIT_ = -12.50;*/
+/*	else*/
+/*	XM_CREDIT = XM_CREDIT;*/
+/*	*/
+/**/
+/*run;*/
+
 PROC SQL;
    CREATE TABLE WORK.FINAL_ONE0 AS 
    SELECT t1.* ,
@@ -517,7 +527,14 @@ PROC SQL;
           /* FOB_PRICE */
 /*            (t1.ACC_GROUP_COST1+t1.RFT_COST+t1.PPR_COST+t1.FOB_STD+t1.MFT_Std+t1.DutyDollar+t1.STD_INS_DATED+PDI) AS */
 /*            FOB_PRICE, */
-			ifn(t3.XM_CREDIT is missing, 0, t3.XM_CREDIT) as XM_CREDIT_,
+			/*ifn(t3.XM_CREDIT is missing, 0, t3.XM_CREDIT) as XM_CREDIT_,*/
+			(CASE
+				WHEN (t3.xm_credit < 0 AND t1.rdr_date >= '01OCT2019:00:00:00'dt) then -12.50
+				WHEN t3.xm_credit is missing then  0
+				WHEN t3.XM_CREDIT = 0 then 0
+				ELSE t3.XM_CREDIT
+
+			  END) as XM_CREDIT_,
 			ifn(t3.BL_COST is missing,0 ,t3.BL_COST) as BL_COST_,
 			ifn(t3.BL_GUIDE_COST is missing, 0, t3.BL_GUIDE_COST) as BL_GUIDE_COST_ ,
 			/* EQ_FOB_PRICE */
@@ -538,6 +555,9 @@ PROC SQL;
 		   	AND (t1.ACCESSORY_GROUP_CD = t3.ACCESSORY_GROUP_CD)
 		;
 QUIT;
+
+
+
 data WORK.FINAL_ONE;
    set WORK.FINAL_ONE0 (drop=hmc_invoice_date PURIFICATION_DATE WHOLESALE_DATE RETAIL_SALE_DATE RDR_DATE RDR_ENTRY_DATE);
    array change _numeric_;
@@ -1025,7 +1045,14 @@ datalines;
 ;
 
 run;
+data CARL.sxm_credit;
+set sxm_credit_adj;
+ST_DATE = input(start_date, mmddyy10.) ;
+EN_DATE = input(end_date, mmddyy10.);
+format ST_DATE date10.;
+format EN_DATE date10.;
 
+run; 
 
 %_eg_conditional_dropds(WORK.FINFINLC);
 %_eg_conditional_dropds(WORK.firstlc);
