@@ -172,19 +172,22 @@ PROC SQL;
       FROM WORK.consolidated t1
       WHERE t1.ACCCD NOT IS MISSING;
 QUIT;
+/* ACCESSORY STARTS HERE  */
 
 PROC SQL;
    CREATE TABLE WORK.ByGroupCode AS 
    SELECT DISTINCT t1.TxtMY, 
           t1.MODEL_CD, 
           t1.ACCESSORY_GROUP_CD, 
+		  
           /* Acc_Group_Cost */
             (SUM(t2.ACC_COST)) FORMAT=NEGPAREN12. AS Acc_Group_Cost
       FROM WORK.SYS_ACC_CODE t1
            LEFT JOIN CARL.ACCESSORY t2 ON (t1.TxtMY = t2.TxtMY) AND (t1.MODEL_CD = t2.Model_Code) AND (t1.ACCCD = t2.ACC_Code)
       GROUP BY t1.TxtMY,
                t1.MODEL_CD,
-               t1.ACCESSORY_GROUP_CD;
+               t1.ACCESSORY_GROUP_CD
+				;
 QUIT;
 proc sort data=profit.ppr;
 by TxtMY Model_Code Port;

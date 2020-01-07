@@ -431,7 +431,7 @@ data wjsas.incentives_database;
 		rename 'SRC-CPO'n = SRC_CPO;
 		rename 'First Responders'n = First_Responders;
 		rename 'Autoshow Coupon'n = Autoshow_Coupon;
-		rename 'Dealer Fleet with Tier assignm'n = Dlr_Fleet_Tiered
+		rename 'Dealer Fleet with Tier assignm'n = Dlr_Fleet_Tiered;
 		rename 'Lease Bonus Cash'n = LBC;
 
 	;
